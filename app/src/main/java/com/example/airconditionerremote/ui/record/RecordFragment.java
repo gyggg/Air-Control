@@ -1,5 +1,6 @@
 package com.example.airconditionerremote.ui.record;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,10 +39,29 @@ public class RecordFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_record, container, false);
-        ListAdapter listAdapter = new ListAdapter(Records.getRecords());
+        final ListAdapter listAdapter = new ListAdapter(Records.getRecords(), this.getContext());
         rvRecords = root.findViewById(R.id.rv_records);
+        rvRecords.setHasFixedSize(true);
         rvRecords.setLayoutManager(new LinearLayoutManager(this.getContext()));
         rvRecords.setAdapter(listAdapter);
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT)  {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                //Remove swiped item from list and notify the RecyclerView
+                int position = viewHolder.getAdapterPosition();
+                Records.getRecords().remove(position);
+                Records.saveRecords(getContext());
+                listAdapter.notifyDataSetChanged();
+
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(rvRecords);
         return root;
     }
 
@@ -54,9 +75,11 @@ public class RecordFragment extends Fragment {
     static class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
         Records records;
+        final Context context;
 
-        public ListAdapter(Records records) {
+        public ListAdapter(Records records, Context context) {
             this.records = records;
+            this.context = context;
         }
         @NonNull
         @Override
@@ -76,6 +99,7 @@ public class RecordFragment extends Fragment {
                 public void onClick(View v) {
                     record.setRunning(Record.getMainRecord().isRunning());
                     Record.setMainRecord(record);
+                    Record.saveRecord(context);
                     try {
                         HttpTask.sendGet(Record.getMainRecord().generateUrl());
                     } catch (IOException e) {

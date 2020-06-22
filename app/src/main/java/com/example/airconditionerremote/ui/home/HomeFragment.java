@@ -83,14 +83,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onPause() {
+        super.onPause();
         Record.saveRecord(getContext());
         Records.saveRecords(getContext());
-        if(Record.getMainRecord().isResetFlag()) {
-            Record.getMainRecord().setResetFlag(false);
-            sendCtl();
-        }
+    }
+
+    public void refreshData() {
+        homeViewModel.getRecord().postValue(Record.getMainRecord());
     }
 
     @Override
