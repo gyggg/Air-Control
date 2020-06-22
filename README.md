@@ -11,3 +11,12 @@
   - 3 温度
     - 0 lower
     - 1 higher
+
+#### config(build.gradle)
+- android gradle plugin version
+  3.6.3
+- gradle version
+  5.6.4
+- target sdk 29(compile)
+- min sdk 22
+- build tools version 29.0.3
