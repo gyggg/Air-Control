@@ -30,7 +30,7 @@ public class SettingsFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_settings, container, false);
         et_ip = root.findViewById(R.id.et_ip);
         btnReset = root.findViewById(R.id.btn_reset);
-
+        et_ip.setText(Record.getMainRecord().getIpAddress());
         et_ip.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -39,6 +39,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 Record.getMainRecord().setIpAddress(s.toString());
+                Record.saveRecord(getContext());
             }
         });
 
