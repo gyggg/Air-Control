@@ -163,7 +163,7 @@
         style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="132dp"
+        android:layout_marginTop="128dp"
         android:text="運転／停止"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"

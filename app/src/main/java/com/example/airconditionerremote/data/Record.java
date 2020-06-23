@@ -26,7 +26,8 @@ public class Record implements Serializable, Cloneable {
     private String name = "default";
     private String ipAddress = "192.168.1.1";
     private boolean resetFlag = false;
-
+    private int ctl;
+    private int stat;
     static private Record mainRecord;
 
     public Record() {
@@ -68,6 +69,8 @@ public class Record implements Serializable, Cloneable {
 
     public void setRunning(boolean running) {
         this.running = running;
+        ctl = 1;
+        stat = isRunning() ? 1 : 0;
     }
 
     public String getName() {
@@ -171,26 +174,35 @@ public class Record implements Serializable, Cloneable {
         temperature = temperature + 1;
         if(temperature > 30)
             temperature = 30;
+        ctl = 3;
+        stat = 1;
     }
 
     public void temperatureDown() {
         temperature = temperature - 1;
         if(temperature < 17)
             temperature = 17;
+        ctl = 3;
+        stat = 0;
     }
 
     public void modeChange() {
         mode = (mode + 1) % 2;
+        ctl = 2;
+        stat = mode;
     }
 
     public void powerChange() {
         power = (power + 1) % 5;
+        ctl = 4;
+        stat = power % 2;
     }
 
     public String generateUrl() {
         int runId = isRunning() ? 1 : 0;
         //TODO:please finish the url
-        String url = String.format("http://%s/control.php?run=%d&temp=%d&mode=%d&power=%d", ipAddress, runId, temperature, mode, power);
+//        String url = String.format("http://%s/control.php?run=%d&temp=%d&mode=%d&power=%d", ipAddress, runId, temperature, mode, power);
+        String url = String.format("http://%s/control.php?ctl=%d&stat=%d", ipAddress, ctl, stat);
         return url;
     }
 }

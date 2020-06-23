@@ -6,11 +6,15 @@
     - 1 on
     - 0 off
   - 2 模式
-    - 0 cooling
-    - 1 heating
+    - 1 cooling
+    - 0 heating
   - 3 温度
-    - 0 lower
     - 1 higher
+    - 0 lower
+  - 4 风量
+    - 1 down
+    - 0 up 
+
 
 #### config(build.gradle)
 - android gradle plugin version
