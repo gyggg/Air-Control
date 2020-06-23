@@ -2,6 +2,6 @@
     <string name="app_name">Air-Conditioner Remote</string>
     <string name="title_activity_new_main">NewMainActivity</string>
     <string name="title_home">エアコン</string>
-    <string name="title_dashboard">レコード</string>
+    <string name="title_dashboard">シーン</string>
     <string name="title_notifications">設定</string>
 </resources>
