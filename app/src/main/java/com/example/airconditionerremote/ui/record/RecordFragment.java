@@ -101,7 +101,10 @@ public class RecordFragment extends Fragment {
                     Record.setMainRecord(record);
                     Record.saveRecord(context);
                     try {
-                        HttpTask.sendGet(Record.getMainRecord().generateUrl());
+                        String []urls = Record.getMainRecord().generateUrls();
+                        for(String u: urls) {
+                            HttpTask.sendGet(u);
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

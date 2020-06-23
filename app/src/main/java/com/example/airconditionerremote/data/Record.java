@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.List;
 
 public class Record implements Serializable, Cloneable {
     final public static String pKey = "Main";
@@ -21,7 +22,7 @@ public class Record implements Serializable, Cloneable {
     final public static int MODE_COOL = 1;
     private int temperature = 26;
     private int mode = MODE_COOL;
-    private int power = 4;
+    private int power = 1;
     private boolean running = false;
     private String name = "default";
     private String ipAddress = "192.168.1.1";
@@ -109,11 +110,11 @@ public class Record implements Serializable, Cloneable {
     public String getPowerString() {
         String result = "";
         switch(power) {
-            case 0: result = "しずか";break;
-            case 1: result = "◀";break;
-            case 2: result = "◀◀";break;
-            case 3: result = "◀◀◀";break;
-            case 4: result = "自動";break;
+//            case 0: result = "しずか";break;
+            case 0: result = "◀";break;
+//            case 2: result = "◀◀";break;
+            case 1: result = "◀◀◀◀◀";break;
+//            case 4: result = "自動";break;
         }
         return result;
     }
@@ -193,16 +194,30 @@ public class Record implements Serializable, Cloneable {
     }
 
     public void powerChange() {
-        power = (power + 1) % 5;
+        power = (power + 1) % 2;
         ctl = 4;
         stat = power % 2;
     }
 
+
     public String generateUrl() {
+        return generateUrl(ctl, stat);
+    }
+
+    public String generateUrl(int ctl, int stat) {
         int runId = isRunning() ? 1 : 0;
         //TODO:please finish the url
 //        String url = String.format("http://%s/control.php?run=%d&temp=%d&mode=%d&power=%d", ipAddress, runId, temperature, mode, power);
         String url = String.format("http://%s/control.php?ctl=%d&stat=%d", ipAddress, ctl, stat);
         return url;
+    }
+
+
+    public String[] generateUrls() {
+        String [] res = new String[3];
+        res[0] = generateUrl(4, power); //power
+        res[1] = generateUrl(2, mode);  //mode
+        res[2] = generateUrl(3, 0); //temp
+        return res;
     }
 }

@@ -70,7 +70,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             public void onChanged(Record r) {
                 tvTemp.setText(r.getTemputerString());
                 tvMode.setText(r.getModeString());
-//                tvPower.setText(r.getPowerString());
+                tvPower.setText(r.getPowerString());
                 if(r.isRunning())
                     tvRunning.setVisibility(View.VISIBLE);
                 else
