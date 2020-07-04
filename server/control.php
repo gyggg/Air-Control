@@ -4,9 +4,9 @@ define("PROT", 22);
 define("USER", "pi");
 define("PASSWORD", "jack1234");
 /*
-    input : "1_26_1_0"
+    input : "1_26_1_0"(26度，冷风，强度0）
     output : "/usr/bin/sudo /usr/bin/irsend send_once aircon c_1_26_1_0"
-    input : "0_*_*_*"
+    input : "0_*_*_*"（关闭）
     output : "/usr/bin/sudo /usr/bin/irsend send_once aircon c_0"
 */
 function to_command($c)
