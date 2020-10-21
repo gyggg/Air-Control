@@ -1,5 +1,9 @@
 ## Air-Conditioner Remote
 
+This is a Android application of Air-Conditioner's remote.
+By send request to raspberry pi server and raspberry pi server send singal to air conditioner.
+
+
 #### control.php?
 - num+stat
   - 1 开关
